@@ -2,8 +2,9 @@
 
 COMPILER=g++
 LINKER=g++
-LINKER_LIBS="-lglfw3 -lGL -lGLEW -lX11 -lXxf86vm -lXrandr -lpthread -lXi -ldl -lXinerama -lXcursor"
+LINKER_LIBS="-lglfw3 -lGL -lGLEW -lX11 -lXxf86vm -lXrandr -lpthread -lXi -ldl -lXinerama -lXcursor -llua5.2"
 INCLUDE_LOCAL=$PWD
+INCLUDE_LUA=/usr/include/lua5.2
 
 remove_main() {
 	if [ -e main.o ]; then
@@ -23,8 +24,12 @@ remove_previous() {
 }
 
 compile() {
-	echo "Compile main.cpp"
-	$COMPILER -Wall -I$INCLUDE_LOCAL main.cpp -c -o out.o
+	echo "Compile main.c"
+	gcc -I$INCLUDE_LUA -I$INCLUDE_LOCAL -Wall main.c -c -o lua.o
+	echo "Compile ogl.cpp"
+	$COMPILER -Wall -I$INCLUDE_LOCAL ogl.cpp -c -o ogl.o
+	echo "Compile lua_bridge.cpp"
+	$COMPILER -Wall -I$INCLUDE_LOCAL lua_bridge.cpp -c -o lua_bridge.o
 	
 	for i in common/*.cpp
 	do
@@ -48,7 +53,7 @@ link() {
 	done
 	
 	echo "Linking."
-	LINE="$LINKER out.o $LINK_ADD -o main.o $LINKER_LIBS"
+	LINE="$LINKER lua_bridge.o ogl.o lua.o $LINK_ADD -o main.o $LINKER_LIBS"
 	echo Execute: $LINE
 	$LINE
 }
@@ -69,7 +74,7 @@ default() {
 	none
 }
 
-if [ "$@" != "" ];
+if [[ "$@" != "" ]];
 then
 	for i in "$@"
 	do
