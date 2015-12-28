@@ -45,7 +45,7 @@ namespace ogl_init {
 
 
 		// Open a window and create its OpenGL context
-		window = glfwCreateWindow( 1024, 768, "Space Simulator Module02", NULL, NULL);
+		window = glfwCreateWindow( window_width, window_height, window_title, NULL, NULL);
 		if( window == NULL ){
 			fprintf( stderr, "Failed to open GLFW window.\n" );
 			getchar();

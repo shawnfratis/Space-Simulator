@@ -14,12 +14,11 @@ remove_main() {
 
 remove_previous() {
 	echo "CLEAR DATA"
-	if [ -e out.o ]; then
-		rm out.o
-	fi
-	for i in common/*.o
+	for i in common/*.o lua_bridge.o ogl.o lua.o
 	do
-		rm $i
+		if [ -e $i ]; then
+			rm $i
+		fi
 	done
 }
 
