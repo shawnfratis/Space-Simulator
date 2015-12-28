@@ -45,7 +45,7 @@ namespace ogl_init {
 
 
 		// Open a window and create its OpenGL context
-		window = glfwCreateWindow( window_width, window_height, window_title, NULL, NULL);
+		window = glfwCreateWindow( 1024, 768, "Space Simulator Module02", NULL, NULL);
 		if( window == NULL ){
 			fprintf( stderr, "Failed to open GLFW window.\n" );
 			getchar();
@@ -69,7 +69,7 @@ namespace ogl_init {
 		
 		// Set the mouse at the center of the screen
 		glfwPollEvents();
-		glfwSetCursorPos(window, 1024/2, 768/2);
+		glfwSetCursorPos(window, window_width/2, window_height/2);
 
 		// Dark blue background
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
